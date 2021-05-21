@@ -1551,7 +1551,990 @@
 //友元的关系不能传递。如果类 B 是类 A 的友元类，类 C 是类 B 的友元类，不等于类 C 是类 A 的友元类。
 
 // C++ class和struct的区别
-// http://c.biancheng.net/view/2235.html
+// 在C语言中，struct 只能包含成员变量，不能包含成员函数。
+// 而在C++中，struct 类似于 class，既可以包含成员变量，又可以包含成员函数。
+//C++中的 struct 和 class 基本是通用的，唯有几个细节不同：
+//使用 class 时，类中的成员默认都是 private 属性的；而使用 struct 时，结构体中的成员默认都是 public 属性的。
+//class 继承默认是 private 继承，而 struct 继承默认是 public 继承。
+//class 可以使用模板，而 struct 不能。
+
+//
+//#include <iostream>
+//#include <string>
+//using namespace std;
+//
+//int main() {
+//    string s1; // 默认值是""，也即空字符串
+//
+//    string s2 = "hello";
+//    int len = s2.length();
+//    cout << len << endl;
+//
+//    string s3 = s2;
+//
+//    string s4(5, 's'); // s4 被初始化为由 5 个's'字符组成的字符串，也就是"sssss"
+//
+//    string path = "D:\\demo.txt";
+//    FILE *fp = fopen(path.c_str(), "rt");
+//    // C语言中的 fopen() 函数打开文件，必须将 string 字符串转换为C风格的字符串
+//
+//    string s;
+//    cin >> s; // 输入运算符>>默认会忽略空格，遇到空格就认为输入结束
+//    cout << s << endl;
+//
+//    string str1 = "test1";
+//    for(int i = 0, len = str1.length(); i < len; i++) {
+//        cout << s[i] << " ";
+//    }
+//    cout << endl;
+//    str1[5] = '5';
+//    cout << str1 << endl;
+//
+//    string str2 = "test2";
+//    char *str3 = "test3";
+//    char str4[] = "test4";
+//    char ch = '@';
+//
+//    string str5 = str1 + str2;
+//    string str6 = str1 + str3;
+//    string str7 = str1 + str4;
+//    string str8 = str1 + ch;
+//
+//    // insert() 函数可以在 string 字符串中指定的位置插入另一个字符串
+//    str1.insert(3, str2);
+//    str2.insert(3, "bbb");
+//
+//    // erase() 函数可以删除 string 中的一个子字符串
+//    // pos 表示要删除的子字符串的起始下标，len 表示要删除子字符串的长度
+//    str1.erase(3,4);
+//    str2.erase(3); // 不指明 len 的话，那么直接删除从 pos 到字符串结束处的所有字符
+//
+//    // substr() 函数用于从 string 字符串中提取子字符串
+//    // pos 为要提取的子字符串的起始下标，len 为要提取的子字符串的长度
+//    string substr1 = str1.substr(2, 3);
+//
+//    // find() 函数用于在 string 字符串中查找子字符串出现的位置
+//    int index = str1.find("es", 1);
+//    if (index < str1.length()) {
+//        cout << "Found at index: " << index << endl;
+//    } else {
+//        cout << "Not found" << endl;
+//    }
+//
+//    return 0;
+//}
+
+//  C++ 提供了 string 类来替代C语言中的字符串，但是在实际编程中，
+// 有时候必须要使用C风格的字符串（例如打开文件时的路径），为此，string 类提供了一个转换函数 c_str()，
+// 该函数能够将 string 字符串转换为C风格的字符串，并返回该字符串的 const 指针（const char*）
+
+// string 类使用+或+=运算符来直接拼接字符串，不需要使用C语言中的 strcat()、strcpy()、malloc() 等函数拼接字符串
+
+
+//拷贝构造函数是一种特殊的构造函数，它在创建对象时，是使用同一类中之前创建的对象来初始化新创建的对象。
+//拷贝构造函数通常用于：
+//通过使用另一个同类型的对象来初始化新创建的对象。
+//复制对象把它作为参数传递给函数。
+//复制对象，并从函数返回这个对象。
+
+//#include <iostream>
+//
+//using namespace std;
+//
+//class Line {
+//public:
+//    int getLength(void);
+//    Line(int len); // 简单的构造函数
+//    Line(const Line &obj); // 拷贝构造函数
+//    ~Line(); // 析构函数
+//
+//private:
+//    int *ptr;
+//};
+//
+//// 成员函数定义，包括构造函数
+//Line::Line(int len) {
+//    cout << "调用构造函数" << endl;
+//    // 为指针分配内存
+//    ptr = new int;
+//    *ptr = len;
+//}
+//
+//Line::Line(const Line &obj) {
+//    cout << "调用拷贝构造函数并为指针ptr分配内存" << endl;
+//    ptr = new int;
+//    *ptr = *obj.ptr; // 拷贝值
+//}
+//
+//Line::~Line() {
+//    cout << "释放内存" << endl;
+//    delete ptr;
+//}
+//
+//int Line::getLength(void) {
+//    return *ptr;
+//}
+//
+//void display(Line obj) {
+//    cout << "line 大小：" << obj.getLength() << endl;
+//}
+//
+//// 程序的主函数
+//int main() {
+//    Line line(10);
+//
+//    display(line);
+//
+//    return 0;
+//}
+//
+//调用构造函数
+//调用拷贝构造函数并为指针ptr分配内存
+//line 大小：10
+//释放内存
+//释放内存
+
+//#include <iostream>
+//
+//using namespace std;
+//
+//class Line {
+//public:
+//    int getLength(void);
+//    Line(int len); // 简单的构造函数
+//    Line(const Line &obj); // 拷贝构造函数
+//    ~Line(); // 析构函数
+//
+//private:
+//    int *ptr;
+//};
+//
+//// 成员函数定义，包括构造函数
+//Line::Line(int len) {
+//    cout << "调用构造函数" << endl;
+//    // 为指针分配内存
+//    ptr = new int;
+//    *ptr = len;
+//}
+//
+//Line::Line(const Line &obj) {
+//    cout << "调用拷贝构造函数并为指针ptr分配内存" << endl;
+//    ptr = new int;
+//    *ptr = *obj.ptr; // 拷贝值
+//}
+//
+//Line::~Line() {
+//    cout << "释放内存" << endl;
+//    delete ptr;
+//}
+//
+//int Line::getLength(void) {
+//    return *ptr;
+//}
+//
+//void display(Line obj) {
+//    cout << "line 大小：" << obj.getLength() << endl;
+//}
+//
+//// 程序的主函数
+//int main() {
+//    Line line1(10);
+//
+//    Line line2 = line1; // 这里也调用了拷贝构造函数
+//
+//    display(line1);
+//    display(line2);
+//
+//    return 0;
+//}
+//
+//调用构造函数
+//调用拷贝构造函数并为指针ptr分配内存
+//调用拷贝构造函数并为指针ptr分配内存
+//line 大小：10
+//释放内存
+//调用拷贝构造函数并为指针ptr分配内存
+//line 大小：10
+//释放内存
+//释放内存
+//释放内存
+
+// 封闭类：包含成员对象的类
+//#include <iostream>
+//
+//using namespace std;
+//
+//class CTyre { // 车胎
+//private:
+//    int radius;
+//    int width;
+//public:
+//    CTyre(int r, int w): radius(r), width(w) {
+//        cout << "CTyre contructor" << endl;
+//    };
+//    ~CTyre() {
+//        cout << "CTyre destructor" << endl;
+//    }
+//};
+//
+//class CEngine {
+//public:
+//    CEngine() {
+//        cout << "CEngine contructor" << endl;
+//    }
+//    ~CEngine() {
+//        cout << "CEngine destructor" << endl;
+//    }
+//};
+//
+//class CCar { // 封闭类，包括成员对象CEngine和CTyre
+//private:
+//    int price;
+//    CTyre tyre;
+//    CEngine engine;
+//public:
+//    CCar(int p, int tr, int tw): price(p), tyre(tr, tw) {
+//        cout << "CCar contructor" << endl;
+//    }
+//    ~CCar() {
+//        cout << "CCar destructor" << endl;
+//    }
+//};
+//
+//int main() {
+//    int p = 1, tr = 2, tw = 3;
+//    CCar(p, tr, tw);
+//
+//    return 0;
+//}
+//
+//CTyre contructor
+//CEngine contructor
+//CCar contructor
+//CCar destructor
+//CEngine destructor
+//CTyre destructor
+
+//封闭类构造函数的初始化列表
+//定义封闭类的构造函数时，添加初始化列表：
+//类名::构造函数（参数表）：成员变量1（参数表）,成员变量2（参数表）...
+//
+//调用顺序
+//当封闭类对象生成的时候，
+//s1：执行所有成员对象的构造函数
+//s2：执行封闭类的构造函数
+//
+//成员对象的构造函数调用顺序
+//和成员对象在类中的说明顺序一致
+//与在成员初始化列表中出现的顺序无关
+//
+//当封闭类的对象消亡时，
+//s1：先执行封闭类的析构函数
+//s2：执行成员对象的析构函数
+
+// 在 C/C++ 中，将 char、int、float 等由语言本身支持的类型称为基本类型，将数组、结构体、类（对象）等由基本类型
+// 组合而成的类型称为聚合类型（在讲解结构体时也曾使用复杂类型、构造类型这两种说法）。
+
+//#include <iostream>
+//using namespace std;
+//
+//int main() {
+//    int a = 99;
+//    int &r = a;
+//    cout << a << ", " << r << endl;
+//    cout << &a << ", " << &r << endl;
+//
+//    return 0;
+//}
+//
+//99, 99
+//0x61fe14, 0x61fe14
+
+//#include <iostream>
+//using namespace std;
+//
+//void swap1(int a, int b);
+//void swap2(int *p1, int *p2);
+//void swap3(int &r1, int &r2);
+//
+//int main() {
+//    int num1, num2;
+//
+//    cout << "Input two integers: ";
+//    cin >> num1 >> num2;
+//    swap1(num1, num2);
+//    cout << num1 << " " << num2 << endl;
+//
+//    cout << "Input two integers: ";
+//    cin >> num1 >> num2;
+//    swap2(&num1, &num2);
+//    cout << num1 << " " << num2 << endl;
+//
+//    cout << "Input two integers: ";
+//    cin >> num1 >> num2;
+//    swap3(num1, num2);
+//    cout << num1 << " " << num2 << endl;
+//
+//    return 0;
+//}
+//
+//// 直接传递参数内容
+//void swap1(int a, int b) {
+//    int temp = a;
+//    a = b;
+//    b = temp;
+//}
+//
+//// 传递指针
+//void swap2(int *p1, int *p2) {
+//    int temp = *p1;
+//    *p1 = *p2;
+//    *p2 = temp;
+//}
+//
+//// 按引用传参
+//void swap3(int &r1, int &r2) {
+//    int temp = r1;
+//    r1 = r2;
+//    r2 = temp;
+//}
+
+// C++ 引用作为函数返回值
+//#include <iostream>
+//using namespace std;
+//
+//int &plus10(int &r) {
+//    r += 10;
+//    return r;
+//}
+//
+//int main() {
+//    int num1 = 10;
+//    int num2 = plus10(num1);
+//    cout << num1 << " " << num2 << endl;
+//
+//    return 0;
+//}
+//
+//在将引用作为函数返回值时应该注意一个小问题，就是不能返回局部数据（例如局部变量、局部对象、局部数组等）的引用，
+//因为当函数调用完成后局部数据就会被销毁，有可能在下次使用时数据就不存在了，C++ 编译器检测到该行为时也会给出警告。
+
+
+// 被继承的类称为父类或基类，继承的类称为子类或派生类。
+
+//#include <iostream>
+//using namespace std;
+//
+//// 基类 People
+//class People {
+//public:
+//    void setname(char *name);
+//    void setage(int age);
+//    char *getname();
+//    int getage();
+//private:
+//    char *m_name;
+//    int m_age;
+//};
+//
+//void People::setname(char *name) {
+//    m_name = name;
+//}
+//
+//void People::setage(int age) {
+//    m_age = age;
+//}
+//
+//char* People::getname() {
+//    return m_name;
+//}
+//
+//int People::getage() {
+//    return m_age;
+//}
+//
+//// 派生类 Student
+//class Student: public People { // 公有继承
+//public:
+//    void setscore(float score);
+//    float getscore();
+//private:
+//    float m_score;
+//};
+//
+//void Student::setscore(float score) {
+//    m_score = score;
+//}
+//
+//float Student::getscore() {
+//    return m_score;
+//}
+//
+//int main() {
+//    Student stu;
+//    stu.setname("Jane");
+//    stu.setage(16);
+//    stu.setscore(92.5f);
+//
+//    cout << stu.getname() << "的年龄是" << stu.getage() << "，成绩是" << stu.getscore() << endl;
+//
+//    return 0;
+//}
+
+//继承方式限定了基类成员在派生类中的访问权限，包括 public（公有的）、private（私有的）和 protected（受保护的）。
+//此项是可选项，如果不写，默认为 private（成员变量和成员函数默认也是 private）。
+
+// 基类中的 protected 成员可以在派生类中使用，而基类中的 private 成员不能在派生类中使用
+
+// 基类成员在派生类中的访问权限不得高于继承方式中指定的权限。例如，当继承方式为 protected 时，
+// 那么基类成员在派生类中的访问权限最高也为 protected，高于 protected 的会降级为 protected，但低于 protected 不会升级。
+
+//基类的 private 成员不能在派生类中使用，并没有说基类的 private 成员不能被继承。实际上，基类的 private 成员是能够被继承的，
+//并且（成员变量）会占用派生类对象的内存，它只是在派生类中不可见，导致无法使用罢了。
+//private 成员的这种特性，能够很好的对派生类隐藏基类的实现，以体现面向对象的封装性。
+
+// 多级继承
+//#include <iostream>
+//using namespace std;
+//
+//// 基类 People
+//class People {
+//public:
+//    void setname(char *name);
+//    void setage(int age);
+//    void sethobby(char *hobby);
+//    char *gethobby();
+//protected:
+//    char *m_name;
+//    int m_age;
+//private:
+//    char *m_hobby;
+//};
+//
+//void People::setname(char *name) {
+//    m_name = name;
+//}
+//
+//void People::setage(int age) {
+//    m_age = age;
+//}
+//
+//void People::sethobby(char *hobby) {
+//    m_hobby = hobby;
+//}
+//
+//char * People::gethobby() {
+//    return m_hobby;
+//}
+//
+//// 派生类 Student
+//class Student: public People {
+//public:
+//    void setscore(float score);
+//protected:
+//    float m_score;
+//};
+//
+//void Student::setscore(float score) {
+//    m_score = score;
+//}
+//
+//// 派生类 Pupil
+//class Pupil: public Student {
+//public:
+//    void setranking(int ranking);
+//    void display();
+//private:
+//    int m_ranking;
+//};
+//
+//void Pupil::setranking(int ranking) {
+//    m_ranking = ranking;
+//}
+//
+//void Pupil::display() {
+//    cout << m_name << "的年龄是" << m_age << "，考试成绩为" << m_score << "分，班级排名第"
+//    << m_ranking << "，TA喜欢" << gethobby() << "。" << endl;
+//    // gethobby(), 在派生类中访问基类 private 成员的唯一方法就是借助基类的非 private 成员函数
+//}
+//
+//int main() {
+//    Pupil pup;
+//    pup.setname("Karl");
+//    pup.setage(15);
+//    pup.setscore(90.5f);
+//    pup.setranking(4);
+//    pup.sethobby("打球");
+//    pup.display();
+//
+//    return 0;
+//}
+
+
+// 使用 using 关键字可以改变基类成员在派生类中的访问权限，例如将 public 改为 private、将 protected 改为 public。
+//using 只能改变基类中 public 和 protected 成员的访问权限，不能改变 private 成员的访问权限，
+//因为基类中 private 成员在派生类中是不可见的，根本不能使用，所以基类中的 private 成员在派生类中无论如何都不能访问。
+
+//#include <iostream>
+//using namespace std;
+//
+//// 基类 People
+//class People {
+//public:
+//    void show();
+//protected:
+//    char *m_name;
+//    int m_age;
+//};
+//
+//void People::show() {
+//    cout << m_name << "的年龄是" << m_age << endl;
+//}
+//
+//// 派生类 Student
+//class Student : public People {
+//public:
+//    void learning();
+//public:
+//    using People::m_name; // 将protected改为public
+//    using People::m_age; // 将protected改为public
+//    float m_score;
+//private:
+//    using People::show; // 将public改为private
+//};
+//
+//void Student::learning() {
+//    cout << "我是" << m_name << "，今年" << m_age << "岁，这次考了" << m_score << "分！" << endl;
+//}
+//
+//int main() {
+//    Student stu;
+//    stu.m_name = "Jane";
+//    stu.m_age = 18;
+//    stu.m_score = 93.5f;
+//    //stu.show(); // compile error
+//    stu.learning();
+//
+//    return 0;
+//}
+
+
+// 基类成员函数和派生类成员函数不会构成重载，如果派生类有同名函数，
+// 那么就会遮蔽基类中的所有同名函数，不管它们的参数是否一样。
+
+//#include <iostream>
+//using namespace std;
+//
+//// 基类 Base
+//class Base {
+//public:
+//    void func();
+//    void func(int);
+//};
+//
+//void Base::func() {
+//    cout << "Base::func()" << endl;
+//}
+//
+//void Base::func(int a) {
+//    cout << "Base::func(int)" << endl;
+//}
+//
+//// 派生类 Derived
+//class Derived: public Base {
+//public:
+//    void func(char *);
+//    void func(bool);
+//};
+//
+//void Derived::func(char *str) {
+//    cout << "Derived::func(char *)" << endl;
+//}
+//
+//void Derived::func(bool is) {
+//    cout << "Derived::func(bool)" << endl;
+//}
+//
+//int main() {
+//    Derived d;
+//    d.func("test");
+//    d.func(true);
+//
+//    //d.func(); // compile error
+//    //d.func(10); // compile error
+//
+//    d.Base::func();
+//    d.Base::func(100);
+//
+//    return 0;
+//}
+
+//在设计派生类时，对继承过来的成员变量的初始化工作也要由派生类的构造函数完成，
+//但是大部分基类都有 private 属性的成员变量，它们在派生类中无法访问，更不能使用派生类的构造函数来初始化。
+//这种矛盾在C++继承中是普遍存在的，解决这个问题的思路是：在派生类的构造函数中调用基类的构造函数。
+
+//#include <iostream>
+//using namespace std;
+//
+//// 基类 People
+//class People {
+//protected:
+//    char *m_name;
+//    int m_age;
+//public:
+//    People(char*, int);
+//};
+//
+//People::People(char *name, int age) : m_name(name), m_age(age) {
+//    //  TODO
+//}
+//
+//// 派生类 Student
+//class Student: public People {
+//private:
+//    float m_score;
+//public:
+//    Student(char *name, int age, float score);
+//    void display();
+//};
+//
+//// People(name, age) 就是调用基类的构造函数
+//Student::Student(char *name, int age, float score): People(name, age), m_score(score) {
+//    // TODO
+//}
+//// 也可以将基类构造函数的调用放在参数初始化表后面：
+//// Student::Student(char *name, int age, float score): m_score(score), People(name, age){ }
+//// 不管它们的顺序如何，派生类构造函数总是先调用基类构造函数再执行其他代码（包括参数初始化表以及函数体中的代码）
+//// 函数头部是对基类构造函数的调用，而不是声明，所以括号里的参数是实参，
+//// 它们不但可以是派生类构造函数参数列表中的参数，还可以是局部变量、常量等
+//// Student::Student(char *name, int age, float score): People("Tim", 16), m_score(score){ }
+//
+//void Student::display() {
+//    cout << m_name << "的年龄是" << m_age << "，成绩是" << m_score << "。" << endl;
+//}
+//
+//int main() {
+//    Student stu("Jane", 17, 93.5f);
+//    stu.display();
+//
+//    return 0;
+//}
+
+//构造函数的调用顺序是按照继承的层次自顶向下、从基类再到派生类的。
+//派生类构造函数中只能调用直接基类的构造函数，不能调用间接基类的。
+//定义派生类构造函数时最好指明基类构造函数；如果不指明，就调用基类的默认构造函数（不带参数的构造函数）；
+//如果没有默认构造函数，那么编译失败。
+
+//#include <iostream>
+//using namespace std;
+//
+//// 基类 People
+//class People {
+//public:
+//    People(); // 基类默认构造函数
+//    People(char *name, int age);
+//protected:
+//    char *m_name;
+//    int m_age;
+//};
+//
+//People::People(): m_name("Karl"), m_age(0) {
+//    // TODO
+//}
+//
+//People::People(char *name, int age): m_name(name), m_age(age) {
+//    // TODO
+//}
+//
+//// 派生类 Student
+//class Student: public People {
+//public:
+//    Student();
+//    Student(char*, int, float);
+//public:
+//    void display();
+//private:
+//    float m_score;
+//};
+//
+//Student::Student(): m_score(0.0) { // 派生类默认构造函数
+//    // TODO
+//}
+//
+//Student::Student(char *name, int age, float score): People(name, age), m_score(score) {
+//    // TODO
+//}
+//
+//void Student::display() {
+//    cout << m_name << "的年龄是" << "，成绩是" << m_score << "。" << endl;
+//}
+//
+//int main() {
+//    Student stu1;
+//    stu1.display();
+//
+//    Student stu2("Tim", 18, 90.5f);
+//    stu2.display();
+//
+//    return 0;
+//}
+//
+//Karl的年龄是，成绩是0。
+//Tim的年龄是，成绩是90.5。
+
+
+//创建对象 stu1 时，执行派生类的构造函数Student::Student()，它并没有指明要调用基类的哪一个构造函数，
+//从运行结果可以很明显地看出来，系统默认调用了不带参数的构造函数，也就是People::People()
+//
+//如果将基类 People 中不带参数的构造函数删除，那么会发生编译错误，因为创建对象 stu1 时需要调用 People 类的默认构造函数，
+//而 People 类中已经显式定义了构造函数，编译器不会再生成默认的构造函数。
+
+
+//和构造函数类似，析构函数也不能被继承。与构造函数不同的是，在派生类的析构函数中不用显式地调用基类的析构函数，
+//因为每个类只有一个析构函数，编译器知道如何选择，无需程序员干涉。
+//
+//另外析构函数的执行顺序和构造函数的执行顺序也刚好相反：
+//创建派生类对象时，构造函数的执行顺序和继承顺序相同，即先执行基类构造函数，再执行派生类构造函数。
+//而销毁派生类对象时，析构函数的执行顺序和继承顺序相反，即先执行派生类析构函数，再执行基类析构函数。
+
+//派生类都只有一个基类，称为单继承（Single Inheritance）。
+//除此之外，C++也支持多继承（Multiple Inheritance），即一个派生类可以有两个或多个基类。
+//class D: public A, private B, protected C{
+//    //类D新增加的成员
+//}
+//多继承形式下的构造函数和单继承形式基本相同，只是要在派生类的构造函数中调用多个基类的构造函数。
+//以上面的 A、B、C、D 类为例，D 类构造函数的写法为：
+//D(形参列表): A(实参列表), B(实参列表), C(实参列表){
+//    //其他操作
+//}
+//基类构造函数的调用顺序和和它们在派生类构造函数中出现的顺序无关，而是和声明派生类时基类出现的顺序相同。
+
+//#include <iostream>
+//using namespace std;
+//
+//// 基类
+//class BaseA {
+//public:
+//    BaseA(int a, int b);
+//    ~BaseA();
+//public:
+//    void show();
+//protected:
+//    int m_a;
+//    int m_b;
+//};
+//
+//BaseA::BaseA(int a, int b): m_a(a), m_b(b) {
+//    cout << "BaseA constructor" << endl;
+//}
+//
+//BaseA::~BaseA() {
+//    cout << "BaseA destructor" << endl;
+//}
+//
+//void BaseA::show() {
+//    cout << "m_a = " << m_a << endl;
+//    cout << "m_b = " << m_b << endl;
+//}
+//
+//// 基类
+//class BaseB {
+//public:
+//    BaseB(int c, int d);
+//    ~BaseB();
+//    void show();
+//protected:
+//    int m_c;
+//    int m_d;
+//};
+//
+//BaseB::BaseB(int c, int d): m_c(c), m_d(d) {
+//    cout << "BaseB constructor" << endl;
+//}
+//
+//BaseB::~BaseB() {
+//    cout << "BaseB destructor" << endl;
+//}
+//
+//void BaseB::show() {
+//    cout << "m_c = " << m_c << endl;
+//    cout << "m_d = " << m_d << endl;
+//}
+//
+//// 派生类
+//class Derived: public BaseA, public BaseB {
+//public:
+//    Derived(int a, int b, int c, int d, int e);
+//    ~Derived();
+//public:
+//    void display();
+//private:
+//    int m_e;
+//};
+//
+//Derived::Derived(int a, int b, int c, int d, int e): BaseA(a, b), BaseB(c, d), m_e(e) {
+//    cout << "Derived constructor" << endl;
+//}
+//
+//Derived::~Derived() {
+//    cout << "Derived destructor" << endl;
+//}
+//
+//void Derived::display() {
+//    BaseA::show(); // 调用BaseA类的show()函数
+//    BaseB::show(); // 调用BaseB类的show()函数
+//    cout << "m_e = " << m_e << endl;
+//}
+//
+//int main() {
+//    Derived obj(1, 2, 3, 4 ,5);
+//    obj.display();
+//
+//    return 0;
+//}
+//
+//BaseA constructor
+//BaseB constructor
+//Derived constructor
+//m_a = 1
+//m_b = 2
+//m_c = 3
+//m_d = 4
+//m_e = 5
+//Derived destructor
+//BaseB destructor
+//BaseA destructor
+
+//当两个或多个基类中有同名的成员时，如果直接访问该成员，就会产生命名冲突，编译器不知道使用哪个基类的成员。
+//这个时候需要在成员名字前面加上类名和域解析符::，以显式地指明到底使用哪个类的成员，消除二义性。
+
+//多继承（Multiple Inheritance）是指从多个直接基类中产生派生类的能力，多继承的派生类继承了所有父类的成员。
+//尽管概念上非常简单，但是多个基类的相互交织可能会带来错综复杂的设计问题，命名冲突就是不可回避的一个。
+//
+//菱形继承的具体实现：
+
+//#include <iostream>
+//using namespace std;
+//
+//// 间接基类 A
+//class A {
+//protected:
+//    int m_a;
+//};
+//
+//// 直接基类 B
+//class B: public A {
+//protected:
+//    int m_b;
+//};
+//
+//// 直接基类 C
+//class C: public A {
+//protected:
+//    int m_c;
+//};
+//
+//// 派生类 D
+//class D: public B, public C {
+//public:
+//    void seta(int a) {
+//        //m_a = a; // 命名冲突
+//        // 因为类 B 和类 C 中都有成员变量 m_a（从 A 类继承而来），编译器不知道选用哪一个，所以产生了歧义。
+//
+//        B::m_a = a;
+//        //C::m_a = a;
+//    }
+//
+//    void setb(int b) {
+//        m_b = b; // 正确
+//    }
+//
+//    void setc(int c) {
+//        m_c = c; // 正确
+//    }
+//
+//    void setd(int d) {
+//        m_d = d; // 正确
+//    }
+//private:
+//    int m_d;
+//};
+//
+//int main() {
+//    D d;
+//    return 0;
+//}
+
+
+//为了解决多继承时的命名冲突和冗余数据问题，C++ 提出了虚继承，使得在派生类中只保留一份间接基类的成员。
+//在继承方式前面加上 virtual 关键字就是虚继承
+
+//#include <iostream>
+//using namespace std;
+//
+//// 间接基类 A
+//class A {
+//protected:
+//    int m_a;
+//};
+//
+//// 直接基类 B
+//class B: virtual public A { // 虚继承
+//protected:
+//    int m_b;
+//};
+//
+//// 直接基类 C
+//class C: virtual public A { // 虚继承
+//protected:
+//    int m_c;
+//};
+//
+//// 派生类 D
+//class D: public B, public C {
+//public:
+//    void seta(int a) {
+//        m_a = a; // 正确
+//        // 在派生类 D 中就只保留了一份成员变量 m_a，直接访问就不会再有歧义了。
+//    }
+//
+//    void setb(int b) {
+//        m_b = b; // 正确
+//    }
+//
+//    void setc(int c) {
+//        m_c = c; // 正确
+//    }
+//
+//    void setd(int d) {
+//        m_d = d; // 正确
+//    }
+//private:
+//    int m_d;
+//};
+//
+//int main() {
+//    D d;
+//    return 0;
+//}
+//
+//虚继承的目的是让某个类做出声明，承诺愿意共享它的基类。其中，这个被共享的基类就称为虚基类（Virtual Base Class），本例中的 A 就是一个虚基类。
+//在这种机制下，不论虚基类在继承体系中出现了多少次，在派生类中都只包含一份虚基类的成员。
+//虚派生只影响从指定了虚基类的派生类中进一步派生出来的类，它不会影响派生类本身。
+//
+//C++标准库中的 iostream 类就是一个虚继承的实际应用案例。iostream 从 istream 和 ostream 直接继承而来，
+//而 istream 和 ostream 又都继承自一个共同的名为 base_ios 的类，是典型的菱形继承。
+//此时 istream 和 ostream 必须采用虚继承，否则将导致 iostream 类中保留两份 base_ios 类的成员。
+
+//因为在虚继承的最终派生类中只保留了一份虚基类的成员，所以该成员可以被直接访问，不会产生二义性。
+//此外，如果虚基类的成员只被一条派生路径覆盖，那么仍然可以直接访问这个被覆盖的成员。
+//但是如果该成员被两条或多条路径覆盖了，那就不能直接访问了，此时必须指明该成员属于哪个类。
+
+//在虚继承中，虚基类是由最终的派生类初始化的，换句话说，最终派生类的构造函数必须要调用虚基类的构造函数。
+//对最终的派生类来说，虚基类是间接基类，而不是直接基类。
+//这跟普通继承不同，在普通继承中，派生类构造函数中只能调用直接基类的构造函数，不能调用间接基类的。
+// http://c.biancheng.net/view/2281.html
+
 
 
 
